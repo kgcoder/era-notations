@@ -13,7 +13,6 @@ let textNodesArray = []
 window.onload = async () => {
 
 
-    console.log('hello')
 
 
 
@@ -35,9 +34,6 @@ function detectAndEditEverything(){
     let replacementsArray = []
     getLocalReplacements(htmlWithIgParts, replacementsArray)
     replacementsArray = replacementsArray.sort((a, b) => a.index - b.index)
-
-
-    console.log('replacementsArray',replacementsArray)
 
 
 
@@ -249,19 +245,28 @@ function updateDataInSpan(span){
   const method = span.getAttribute("m")
   const type = span.getAttribute("t")
 
-  const newEraLabel = getReplacementStrings(method)
+  const newEraLabel = getReplacementStrings(originalText,method)
     span.innerHTML = newEraLabel
 
   
 }
 
 
-function getReplacementStrings( method) {
+function getReplacementStrings(originalText, method) {
    
     switch (method) {
    
         case 'bc': {
             return "BCE"
+        }
+        case 'year':{
+            return originalText + " CE"
+        }
+        case 'leading-ad':{
+            return ""
+        }
+        case 'ad-space':{
+            return ""
         }
         default:
             return originalText

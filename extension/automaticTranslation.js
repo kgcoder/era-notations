@@ -7,19 +7,8 @@
 
 function getLocalReplacements(htmlWithIgParts, replacementsArray) {
 
-
-
-  
-    
-   // findH2Headlines(htmlWithIgParts, replacementsArray)
-
-
-    
     createAutomaticReplacements(htmlWithIgParts, replacementsArray)
-
-
-
-    
+ 
 }
 
 
@@ -33,32 +22,17 @@ function createAutomaticReplacements(html, replacementsArray) {
 
     const {result:text,insertions} = extractTextFromHtml(html)
 
-    // processCenturyOrMillenniumCategoryPattern(html,replacementsArray)
-    // processDecadeCategoryPattern(html, replacementsArray)
 
     let intermediaryReplacementsArray = []
 
 
     const rawReplacementsInHtmlArray = []
 
-    console.log('text',text)
     processYearBCPattern(text,intermediaryReplacementsArray)
+    processDecadeBCPattern(text,intermediaryReplacementsArray)
+    processCenturyOrMillenniumPattern(text,intermediaryReplacementsArray)
 
-    // processYearRangePattern(text,intermediaryReplacementsArray, pageData)
-    // processYearToDecadePattern(text,intermediaryReplacementsArray, pageData)
-    // processDecadeToYearPattern(text,intermediaryReplacementsArray)
-    // processListWithMonthNamePattern(text, intermediaryReplacementsArray)
-    // processLongYearListPattern(text, intermediaryReplacementsArray, pageData)
-    // processYearMonthRangePattern(text, intermediaryReplacementsArray)
-    // processYearPattern(text, intermediaryReplacementsArray, pageData)
-    // processCenturyRangePattern(text, intermediaryReplacementsArray)
-    // processCenturyRangeWithSlashPattern(text, intermediaryReplacementsArray)
-    // processMillenniumRangePattern(text, intermediaryReplacementsArray)
-    // processMillenniumRangeWithSlashPattern(text, intermediaryReplacementsArray)
-    // processDecadeRangePattern(text, intermediaryReplacementsArray)
-    // processDecadePattern(text,intermediaryReplacementsArray)
-    // processCenturyPattern(text,intermediaryReplacementsArray)
-    // processMillenniumPattern(text,intermediaryReplacementsArray)
+    processYearWithLeadingADPattern(text,intermediaryReplacementsArray)
 
 
 
@@ -71,19 +45,6 @@ function createAutomaticReplacements(html, replacementsArray) {
     const normalReplacementsInHtml = mergeReplacements(rawReplacementsInHtmlArray)
 
     addNewReplacementsToArray(normalReplacementsInHtml,replacementsArray)
-
-
-
-
-
-
-  
-
-
-
-
-  
-
 
 }
 
@@ -316,7 +277,7 @@ function addNewReplacementsToArray(newReplacements,replacementsArray){
 }
 
 
-function addIntermediaryReplacement(replacementsArray, method,targetString, otherNumberStringInRange = '', index, checkIfExists = true, type = 'normal', originalSubstitute = '') {
+function addIntermediaryReplacement(replacementsArray, method,targetString, index, checkIfExists = true, type = 'normal') {
     
     if (checkIfExists) {
         const indexOfExistingReplacement = replacementsArray.findIndex(rep => rep.index === index)
@@ -329,8 +290,6 @@ function addIntermediaryReplacement(replacementsArray, method,targetString, othe
         method,
         index:index,
         length:targetString.length,
-        originalSubstitute,
-        otherNumberStringInRange
     }
     replacementsArray.push(replacement)
 }
