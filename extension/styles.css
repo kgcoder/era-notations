@@ -1,5 +1,8 @@
 .PopupItemDiv{
     width:250px;
+    align-items: center;
+    height: 30px;
+    display: flex;
 }
 
 .MenuTitle{

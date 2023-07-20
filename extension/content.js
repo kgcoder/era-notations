@@ -7,16 +7,59 @@
 
 let textsArray = []
 let textNodesArray = []
+let currentMode = 0
 
+let conversionDone = false
+
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+   
+    if(message === 'mode0'){
+        currentMode = 0
+        updateDates()
+    }
+
+    if(message === 'mode1'){
+        currentMode = 1
+        if(conversionDone){
+            updateDates()
+        }else{
+            detectAndEditEverything()
+        }
+
+    }
+
+    if(message === 'mode2'){
+        currentMode = 2
+        if(conversionDone){
+            updateDates()
+        }else{
+            detectAndEditEverything()
+        }
+    }
+
+
+    console.log('message',message)
+
+    return true
+
+})
 
 
 window.onload = async () => {
 
 
+    chrome.storage.local.get(['currentMode'], function (result) {
+        console.log('result from storage',result)
+        if(result.currentMode){
+            currentMode = result.currentMode
+          
+            detectAndEditEverything()
+           
+        }
+
+    })
 
 
-
-    detectAndEditEverything()
 
 }
 
@@ -78,6 +121,8 @@ function detectAndEditEverything(){
         
         doReplacements()
         updateDates()
+
+        conversionDone = true
 
     }
 }
@@ -246,7 +291,7 @@ function updateDataInSpan(span){
   const type = span.getAttribute("t")
 
   const newEraLabel = getReplacementStrings(originalText,method)
-    span.innerHTML = newEraLabel
+  span.innerHTML = newEraLabel
 
   
 }
@@ -254,19 +299,23 @@ function updateDataInSpan(span){
 
 function getReplacementStrings(originalText, method) {
    
+    if(currentMode === 0)return originalText
+
     switch (method) {
+
    
         case 'bc': {
-            return "BCE"
+
+            return currentMode === 2 ? "BCE" : "BC"
         }
         case 'year':{
-            return originalText + " CE"
+            return currentMode === 2 ? originalText + " CE" : originalText
         }
         case 'leading-ad':{
-            return ""
+            return currentMode === 2 ? "" : "AD"
         }
         case 'ad-space':{
-            return ""
+            return currentMode === 2 ? "" : originalText
         }
         default:
             return originalText
