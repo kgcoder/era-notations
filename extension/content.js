@@ -11,30 +11,49 @@ let currentMode = 0
 
 let conversionDone = false
 
+let allowedSites = []
+
+let isThisSiteAllowed = false
+let currentDomain = ''
+
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
    
     if(message === 'mode0'){
         currentMode = 0
-        updateDates()
+        if(isThisSiteAllowed){
+            updateDates()
+        }
     }
 
     if(message === 'mode1'){
         currentMode = 1
-        if(conversionDone){
-            updateDates()
-        }else{
-            detectAndEditEverything()
+        if(isThisSiteAllowed){
+            if(conversionDone){
+                updateDates()
+            }else{
+                detectAndEditEverything()
+            }
         }
 
     }
 
     if(message === 'mode2'){
         currentMode = 2
-        if(conversionDone){
-            updateDates()
-        }else{
-            detectAndEditEverything()
+        if(isThisSiteAllowed){
+            if(conversionDone){
+                updateDates()
+            }else{
+                detectAndEditEverything()
+            }
         }
+    }
+
+    if (message === 'giveMePageMetadata') {
+        sendPageMetadata(sendResponse)  
+    }
+
+    if(message === 'toggleSiteUsage'){
+        window.location.reload()
     }
 
 
@@ -45,12 +64,45 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 })
 
 
+
+function sendPageMetadata(sendResponse) {
+    sendResponse({
+        isThisSiteAllowed,
+        domain,
+    })
+}
+
+
+
+
+prepareLocation()
+
 window.onload = async () => {
 
 
-    chrome.storage.local.get(['currentMode'], function (result) {
+    chrome.storage.local.get(['currentMode','sitesData'], function (result) {
         console.log('result from storage',result)
-        if(result.currentMode){
+       
+        if(result.sitesData){
+            const sitesData = JSON.parse(result.sitesData)
+            allowedSites = sitesData.allowedSites
+        }else{
+            allowedSites = ['en.wikipedia.org']
+            chrome.storage.local.set({ ['sitesData']: JSON.stringify({allowedSites}) }).then(() => {});
+        }
+
+        console.log('currentLocation',currentLocation)
+        console.log('domain',domain)
+        console.log('allowed sites:',allowedSites)
+        if(currentLocation){
+            const index = allowedSites.findIndex(site => domain === site)
+            isThisSiteAllowed = index !== -1
+        }else{
+            isThisSiteAllowed = false
+        }
+
+
+        if(isThisSiteAllowed && result.currentMode){
             currentMode = result.currentMode
           
             detectAndEditEverything()
@@ -299,7 +351,7 @@ function updateDataInSpan(span){
 
 function getReplacementStrings(originalText, method) {
    
-    if(currentMode === 0)return originalText
+    if(!isThisSiteAllowed || currentMode === 0)return originalText
 
     switch (method) {
 

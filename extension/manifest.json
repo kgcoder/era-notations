@@ -13,6 +13,7 @@
                 "patternsInHtml.js",
                 "patternsInText.js",
                 "helpers.js",
+                "location.js",
                 "translation.js",
                 "automaticTranslation.js",
                 "patternProcessors.js",
