@@ -10,7 +10,6 @@ function processYearRangeWithLeadingADPattern(text,replacementsArray){
     let result;
     const reg = giRegForText(yearRangeWithLeadingADPattern)
     while ((result = reg.exec(text))) {
-        console.log('result',result)
         const stringUntilSecondYear = result[1] || ''
         const leadingAD = result[2] || ''
         const space = result[5] || ''
@@ -52,6 +51,7 @@ function processYearWithLeadingADPattern(text,replacementsArray){
     let result;
     const reg = giRegForText(yearWithLeadingADPattern)
     while ((result = reg.exec(text))) {
+
         const leadingAD = result[1] || ''
         const space = result[4] || ''
         const yearNumber = result[5] || ''

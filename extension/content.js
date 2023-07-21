@@ -57,7 +57,6 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     }
 
 
-    console.log('message',message)
 
     return true
 
@@ -81,7 +80,6 @@ window.onload = async () => {
 
 
     chrome.storage.local.get(['currentMode','sitesData'], function (result) {
-        console.log('result from storage',result)
        
         if(result.sitesData){
             const sitesData = JSON.parse(result.sitesData)
@@ -91,9 +89,6 @@ window.onload = async () => {
             chrome.storage.local.set({ ['sitesData']: JSON.stringify({allowedSites}) }).then(() => {});
         }
 
-        console.log('currentLocation',currentLocation)
-        console.log('domain',domain)
-        console.log('allowed sites:',allowedSites)
         if(currentLocation){
             const index = allowedSites.findIndex(site => domain === site)
             isThisSiteAllowed = index !== -1
