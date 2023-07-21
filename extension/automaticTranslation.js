@@ -28,6 +28,7 @@ function createAutomaticReplacements(html, replacementsArray) {
 
     const rawReplacementsInHtmlArray = []
 
+    processYearRangeWithLeadingADPattern(text,intermediaryReplacementsArray)
     processYearBCPattern(text,intermediaryReplacementsArray)
     processDecadeBCPattern(text,intermediaryReplacementsArray)
     processCenturyOrMillenniumPattern(text,intermediaryReplacementsArray)

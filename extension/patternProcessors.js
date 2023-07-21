@@ -6,6 +6,30 @@
  */
 
 
+function processYearRangeWithLeadingADPattern(text,replacementsArray){
+    let result;
+    const reg = giRegForText(yearRangeWithLeadingADPattern)
+    while ((result = reg.exec(text))) {
+        console.log('result',result)
+        const stringUntilSecondYear = result[1] || ''
+        const leadingAD = result[2] || ''
+        const space = result[5] || ''
+        const firstYear = result[6] || ''
+        const secondYear = result[10] || ''
+
+        let index = result.index
+        addIntermediaryReplacement(replacementsArray,'leading-ad',leadingAD,index, true)
+        index += leadingAD.length
+        addIntermediaryReplacement(replacementsArray,'ad-space',space,index)
+        index += space.length
+        addIntermediaryReplacement(replacementsArray,'ignore',firstYear,index)
+        index = result.index + stringUntilSecondYear.length
+        addIntermediaryReplacement(replacementsArray,'year',secondYear,index)
+
+    }
+    
+}
+
 
 function processYearBCPattern(text,replacementsArray){
     let result;
@@ -28,7 +52,6 @@ function processYearWithLeadingADPattern(text,replacementsArray){
     let result;
     const reg = giRegForText(yearWithLeadingADPattern)
     while ((result = reg.exec(text))) {
-        console.log('result',result)
         const leadingAD = result[1] || ''
         const space = result[4] || ''
         const yearNumber = result[5] || ''

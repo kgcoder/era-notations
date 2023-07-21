@@ -7,6 +7,7 @@
 const bcPattern = `(${spacePattern}|-)?((b\\.(${spacePattern})?c\\.?|bc)e?)`
 const leadingAdPattern = `(a\\.(${spacePattern})?d\\.?|ad|c\\.(${spacePattern})?e\\.?|ce)`
 const trailingAdPattern = `(${spacePattern}|-)?(a\\.(${spacePattern})?d\\.?|ad|c\\.(${spacePattern})?e\\.?|ce)`
+const rangePattern = `(${spacePattern})?(—|−|–|-|— ?early|− ?early|– ?early|- ?early|— ?late|− ?late|– ?late|- ?late|\\&#8211;|\\&ndash;|\\&#8212;|\\&mdash;|\\&#8211; ?early|\\&ndash; ?early|\\&#8212; ?early|\\&mdash; ?early|\\&#8211; ?late|\\&ndash; ?late|\\&#8212; ?late|\\&mdash; ?late|or|to|to late|to early|to the|and|and late|and early|or late|or early|-to-|until|till|through)(${spacePattern})?`
 
 const supPattern = '\\[\\d*?\\]'
 
@@ -25,8 +26,8 @@ const nakedCenturyPattern = `((\\d+(st|nd|rd|th))|${ordinalNumberWords.join('|')
 const centuriesOrMillenniaPattern = `((${nakedCenturyPattern})(${spacePattern}|-)(millennium|millennia|century|centuries|cent\\.|c\\.))(${bcPattern})`
 
 const yearWithLeadingADPattern = `\\b${leadingAdPattern}\\b(${spacePattern})${nakedYearPattern}`
+const yearRangeWithLeadingADPattern = `(\\b${leadingAdPattern}\\b(${spacePattern})${nakedYearPattern}${rangePattern})${nakedYearPattern}`
 
-// sdfdf AD 14 dffsdfd
 
 
-//sfdf 35 CE dfdfdf
+

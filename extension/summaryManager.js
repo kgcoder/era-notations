@@ -95,7 +95,7 @@ async function editSummaryIfNeeded(node){
 
     getLocalReplacements(htmlWithIgParts, replacementsArray)
 
-    replacementsArray = replacementsArray.filter(replacement => replacement.edit.method !== 'bc-ig')
+    replacementsArray = replacementsArray.filter(replacement => replacement.edit.method !== 'ignore')
 
     replacementsArray = replacementsArray.sort((a,b) => a.index - b.index)
 
