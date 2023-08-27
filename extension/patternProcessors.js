@@ -12,9 +12,11 @@ function processYearRangeWithLeadingADPattern(text,replacementsArray){
     while ((result = reg.exec(text))) {
         const stringUntilSecondYear = result[1] || ''
         const leadingAD = result[2] || ''
-        const space = result[5] || ''
-        const firstYear = result[6] || ''
-        const secondYear = result[10] || ''
+        const space = result[4] || ''
+        const firstYear = result[5] || ''
+        const secondYear = result[9] || ''
+
+        if(space === '\n')return
 
         let index = result.index
         addIntermediaryReplacement(replacementsArray,'leading-ad',leadingAD,index, true)
@@ -24,6 +26,35 @@ function processYearRangeWithLeadingADPattern(text,replacementsArray){
         addIntermediaryReplacement(replacementsArray,'ignore',firstYear,index)
         index = result.index + stringUntilSecondYear.length
         addIntermediaryReplacement(replacementsArray,'year',secondYear,index)
+
+    }
+    
+}
+
+function processYearRangeWithTrailingADPattern(text,replacementsArray){
+    let result;
+    const reg = giRegForText(yearRangeWithTrailingADPattern)
+    while ((result = reg.exec(text))) {
+         const stringUntilADPattern = result[1] || ''
+         const space = result[7] || ''
+         const trailingAD = result[8] || ''
+
+         let index = result.index + stringUntilADPattern.length + space.length
+         addIntermediaryReplacement(replacementsArray,'trailing-ad',trailingAD,index, true)
+
+    }
+    
+}
+
+function processYearRangeWithLeadingCEPattern(text,replacementsArray){
+    let result;
+    const reg = giRegForText(yearRangeWithLeadingCEPattern)
+    while ((result = reg.exec(text))) {
+        const leadingAD = result[2] || ''
+   
+
+        let index = result.index
+        addIntermediaryReplacement(replacementsArray,'leading-ce',leadingAD,index, true)
 
     }
     
@@ -53,8 +84,10 @@ function processYearWithLeadingADPattern(text,replacementsArray){
     while ((result = reg.exec(text))) {
 
         const leadingAD = result[1] || ''
-        const space = result[4] || ''
-        const yearNumber = result[5] || ''
+        const space = result[3] || ''
+        const yearNumber = result[4] || ''
+
+        if(space === '\n')return
 
         let index = result.index
         addIntermediaryReplacement(replacementsArray,'leading-ad',leadingAD,index)
@@ -86,13 +119,46 @@ function processDecadeBCPattern(text, replacementsArray){
 
 }
 
+function processDecadeWithTrailingADPattern(text, replacementsArray){
+    let result;
+    const reg = giRegForText(decadeWithTrailingADPattern)
+    while ((result = reg.exec(text))) {
+        console.log('decade with trailing ad',result)
+         const decadeString = result[1] || ''
+         const space = result[2] || ''
+         const ad = result[3] || ''
+
+         let index = result.index + decadeString.length + space.length
+         addIntermediaryReplacement(replacementsArray,'trailing-ad',ad,index)
+    }
+
+}
+
+function processDecadeWithTrailingCEPattern(text, replacementsArray){
+    let result;
+    const reg = giRegForText(decadeWithTrailingCEPattern)
+    while ((result = reg.exec(text))) {
+        console.log('decade with trailing ce',result)
+        const decadeString = result[1] || ''
+        const space = result[2] || ''
+        const ce = result[3] || ''
+
+        let index = result.index + decadeString.length + space.length
+        addIntermediaryReplacement(replacementsArray,'trailing-ce',ce,index)
 
 
-function processCenturyOrMillenniumPattern(text, replacementsArray) {
+    }
+
+}
+
+
+
+function processCenturiesOrMillenniaBCPattern(text, replacementsArray) {
     
     let result;
-    const reg = giRegForText(centuriesOrMillenniaPattern)
+    const reg = giRegForText(centuriesOrMillenniaBCPattern)
     while ((result = reg.exec(text))) {
+        console.log('century',result)
         const stringTillSpace = result[1] || ''
         const space = result[9] || ''
         const bc = result[10] || ''

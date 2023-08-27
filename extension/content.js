@@ -352,7 +352,6 @@ function getReplacementStrings(originalText, method) {
 
    
         case 'bc': {
-
             return currentMode === 2 ? "BCE" : "BC"
         }
         case 'year':{
@@ -360,6 +359,15 @@ function getReplacementStrings(originalText, method) {
         }
         case 'leading-ad':{
             return currentMode === 2 ? "" : "AD"
+        }
+        case 'trailing-ad':{
+            return currentMode === 2 ? "CE" : "AD"
+        }
+        case 'leading-ce':{
+            return currentMode === 2 ? "CE" : "AD"
+        }
+        case 'trailing-ce':{
+            return currentMode === 2 ? "CE" : "AD"
         }
         case 'ad-space':{
             return currentMode === 2 ? "" : originalText

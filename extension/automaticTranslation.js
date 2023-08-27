@@ -28,21 +28,30 @@ function createAutomaticReplacements(html, replacementsArray) {
     const rawReplacementsInHtmlArray = []
 
     processYearRangeWithLeadingADPattern(text,intermediaryReplacementsArray)
+    processYearRangeWithLeadingCEPattern(text,intermediaryReplacementsArray)
+
     processYearBCPattern(text,intermediaryReplacementsArray)
     processDecadeBCPattern(text,intermediaryReplacementsArray)
-    processCenturyOrMillenniumPattern(text,intermediaryReplacementsArray)
+    processDecadeWithTrailingADPattern(text,intermediaryReplacementsArray)
+    processDecadeWithTrailingCEPattern(text,intermediaryReplacementsArray)
+
+    processCenturiesOrMillenniaBCPattern(text,intermediaryReplacementsArray)
 
     processYearWithLeadingADPattern(text,intermediaryReplacementsArray)
 
+    processYearRangeWithTrailingADPattern(text,intermediaryReplacementsArray)
 
 
     intermediaryReplacementsArray = intermediaryReplacementsArray.sort((a,b) => a.index - b.index).map(item => ({index:item.index,edit:item}))
+
 
 
     moveReplacementsFromTextToHtml(text,html,intermediaryReplacementsArray, rawReplacementsInHtmlArray, insertions)
 
 
     const normalReplacementsInHtml = mergeReplacements(rawReplacementsInHtmlArray)
+
+    console.log('normalReplacementsInHtml',normalReplacementsInHtml)
 
     addNewReplacementsToArray(normalReplacementsInHtml,replacementsArray)
 
@@ -287,7 +296,7 @@ function addNewReplacementsToArray(newReplacements,replacementsArray){
 }
 
 
-function addIntermediaryReplacement(replacementsArray, method,targetString, index, checkIfExists = true, type = 'normal') {
+function addIntermediaryReplacement(replacementsArray, method,targetString, index, checkIfExists = true) {
     
     if (checkIfExists) {
         const indexOfExistingReplacement = replacementsArray.findIndex(rep => rep.index === index)
