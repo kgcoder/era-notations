@@ -30,8 +30,14 @@ const nakedCenturyPattern = `((\\d+(st|nd|rd|th))|${ordinalNumberWords.join('|')
 
 
 const centuriesOrMillenniaBCPattern = `((${nakedCenturyPattern})(${spacePattern}|-)(millennium|millennia|century|centuries|cent\\.|c\\.))(${bcPattern})`
+const centuriesOrMillenniaADPattern = `((${nakedCenturyPattern})(${spacePattern}|-)(millennium|millennia|century|centuries|cent\\.|c\\.))(${trailingADPattern})`
+const centuriesOrMillenniaCEPattern = `((${nakedCenturyPattern})(${spacePattern}|-)(millennium|millennia|century|centuries|cent\\.|c\\.))(${trailingCEPattern})`
 
 const yearWithLeadingADPattern = `\\b${leadingAdPattern}\\b(${spacePattern})${nakedYearPattern}`
+const yearWithTrailingADPattern = `${nakedYearPattern}${trailingADPattern}`
+const yearWithTrailingCEPattern = `${nakedYearPattern}${trailingCEPattern}`
+
+
 const yearRangeWithLeadingADPattern = `(\\b${leadingAdPattern}\\b(${spacePattern})${nakedYearPattern}${rangePattern})${nakedYearPattern}`
 const yearRangeWithTrailingADPattern = `(${nakedYearPattern}${rangePattern}${nakedYearPattern})${trailingADPattern}`
 

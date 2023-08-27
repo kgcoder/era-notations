@@ -102,6 +102,39 @@ function processYearWithLeadingADPattern(text,replacementsArray){
 }
 
 
+function processYearWithTrailingADPattern(text,replacementsArray){
+    let result;
+    const reg = giRegForText(yearWithTrailingADPattern)
+    while ((result = reg.exec(text))) {
+         const year = result[1] || ''
+         const space = result[2] || ''
+         const ad = result[3] || ''
+
+         if(space === '\n')return
+
+         let index = result.index + year.length + space.length
+         addIntermediaryReplacement(replacementsArray,'trailing-ad',ad,index)
+   
+    }
+
+}
+function processYearWithTrailingCEPattern(text,replacementsArray){
+    let result;
+    const reg = giRegForText(yearWithTrailingCEPattern)
+    while ((result = reg.exec(text))) {
+         const year = result[1] || ''
+         const space = result[2] || ''
+         const ce = result[3] || ''
+
+         if(space === '\n')return
+
+         let index = result.index + year.length + space.length
+         addIntermediaryReplacement(replacementsArray,'trailing-ce',ce,index)
+   
+    }
+}
+
+
 
 function processDecadeBCPattern(text, replacementsArray){
     let result;
@@ -123,7 +156,6 @@ function processDecadeWithTrailingADPattern(text, replacementsArray){
     let result;
     const reg = giRegForText(decadeWithTrailingADPattern)
     while ((result = reg.exec(text))) {
-        console.log('decade with trailing ad',result)
          const decadeString = result[1] || ''
          const space = result[2] || ''
          const ad = result[3] || ''
@@ -138,7 +170,6 @@ function processDecadeWithTrailingCEPattern(text, replacementsArray){
     let result;
     const reg = giRegForText(decadeWithTrailingCEPattern)
     while ((result = reg.exec(text))) {
-        console.log('decade with trailing ce',result)
         const decadeString = result[1] || ''
         const space = result[2] || ''
         const ce = result[3] || ''
@@ -158,14 +189,47 @@ function processCenturiesOrMillenniaBCPattern(text, replacementsArray) {
     let result;
     const reg = giRegForText(centuriesOrMillenniaBCPattern)
     while ((result = reg.exec(text))) {
-        console.log('century',result)
         const stringTillSpace = result[1] || ''
         const space = result[9] || ''
         const bc = result[10] || ''
     
-        let index = result.index + stringTillSpace.length  + space.length
+        let index = result.index + stringTillSpace.length + space.length
        
         addIntermediaryReplacement(replacementsArray,'bc',bc,index)
+        
+    }
+}
+
+
+function processCenturiesOrMillenniaADPattern(text, replacementsArray) {
+    
+    let result;
+    const reg = giRegForText(centuriesOrMillenniaADPattern)
+    while ((result = reg.exec(text))) {
+        const stringTillSpace = result[1] || ''
+        const space = result[9] || ''
+        const ad = result[10] || ''
+    
+        let index = result.index + stringTillSpace.length + space.length
+       
+        addIntermediaryReplacement(replacementsArray,'trailing-ad',ad,index)
+        
+    }
+}
+
+
+function processCenturiesOrMillenniaCEPattern(text, replacementsArray) {
+    
+    let result;
+    const reg = giRegForText(centuriesOrMillenniaCEPattern)
+    while ((result = reg.exec(text))) {
+        const stringTillSpace = result[1] || ''
+        const space = result[9] || ''
+        const ce = result[10] || ''
+    
+        let index = result.index + stringTillSpace.length + space.length
+       
+        addIntermediaryReplacement(replacementsArray,'trailing-ce',ce,index)
         
     }
 }

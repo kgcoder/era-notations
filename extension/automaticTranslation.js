@@ -36,10 +36,17 @@ function createAutomaticReplacements(html, replacementsArray) {
     processDecadeWithTrailingCEPattern(text,intermediaryReplacementsArray)
 
     processCenturiesOrMillenniaBCPattern(text,intermediaryReplacementsArray)
+    processCenturiesOrMillenniaADPattern(text,intermediaryReplacementsArray)
+    processCenturiesOrMillenniaCEPattern(text,intermediaryReplacementsArray)
+
+    processYearRangeWithTrailingADPattern(text,intermediaryReplacementsArray)
 
     processYearWithLeadingADPattern(text,intermediaryReplacementsArray)
 
-    processYearRangeWithTrailingADPattern(text,intermediaryReplacementsArray)
+    processYearWithTrailingADPattern(text,intermediaryReplacementsArray)
+    processYearWithTrailingCEPattern(text,intermediaryReplacementsArray)
+
+
 
 
     intermediaryReplacementsArray = intermediaryReplacementsArray.sort((a,b) => a.index - b.index).map(item => ({index:item.index,edit:item}))
@@ -50,8 +57,6 @@ function createAutomaticReplacements(html, replacementsArray) {
 
 
     const normalReplacementsInHtml = mergeReplacements(rawReplacementsInHtmlArray)
-
-    console.log('normalReplacementsInHtml',normalReplacementsInHtml)
 
     addNewReplacementsToArray(normalReplacementsInHtml,replacementsArray)
 
@@ -117,7 +122,7 @@ function extractTextFromHtml(html){
             isAD ||
             (isPreviousCharacterB && nextCharacter == '.') ||
             (isPreviousCharacterC && nextCharacter == '.') ||
-            (isPreviousCharacterE && nextCharacter == '.') ||
+            (isPreviousCharacterE && nextCharacter == '.' || nextCharacter.match(/[a-z0-9]/i)) ||
             (isPreviousCharacterB && nextCharacter.match(cReg))||
             (isPreviousCharacterC && nextCharacter.match(eReg)) ){
                 result += '@'
