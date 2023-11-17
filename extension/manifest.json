@@ -1,6 +1,6 @@
 {
-    "name": "Era Selector",
-    "version": "1.0.1",
+    "name": "BC/AD or BCE/CE Era Notation Selector",
+    "version": "1.0.2",
     "manifest_version": 3,
     "description": "Customize era notations so that they are always BC/AD or always BCE/CE",
     "content_scripts": [
