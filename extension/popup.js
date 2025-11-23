@@ -15,15 +15,11 @@ let currentDomain = ''
 document.addEventListener('DOMContentLoaded', function () {
 
  
-    // const aboutLink = document.getElementById("aboutLink")
+     const sourceLink = document.getElementById("source-link")
 
-    // aboutLink.addEventListener('click', function () {
-    //     chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
-    //         chrome.tabs.sendMessage(tabs[0].id, 'openAbout')
-    //         window.close();
-
-    //     })
-    // })
+    sourceLink.addEventListener('click', function () {
+        window.open('https://github.com/kgcoder/era-notations')
+    })
 
     chrome.storage.local.get(['currentMode','sitesData'], function (result) {
         
