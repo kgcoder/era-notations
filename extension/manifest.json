@@ -1,6 +1,6 @@
 {
     "name": "BC/AD or BCE/CE Era Notation Selector",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "manifest_version": 3,
     "description": "Customize era notations so that they are always BC/AD or always BCE/CE",
     "content_scripts": [
@@ -27,7 +27,11 @@
     ],
     
     "action": {
-        "default_icon": "images/icon16.png",
+        "default_icon": {
+            "16": "images/icon16.png",
+            "32": "images/icon32.png",
+            "48": "images/icon48.png"
+        },
         "default_popup": "popup.html"
     },
     "permissions":[
@@ -42,5 +46,6 @@
         "48": "images/icon48.png",
         "128": "images/icon128.png"
     }
+ 
   
 }

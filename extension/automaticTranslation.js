@@ -27,6 +27,7 @@ function createAutomaticReplacements(html, replacementsArray) {
 
     const rawReplacementsInHtmlArray = []
 
+
     processYearRangeWithLeadingADPattern(text,intermediaryReplacementsArray)
     processYearRangeWithLeadingCEPattern(text,intermediaryReplacementsArray)
 
@@ -93,18 +94,11 @@ function extractTextFromHtml(html){
         if(character === '<'){
             isIgnoring = true
             previousCharacter = html.slice(index - 1,index)
-            if(previousCharacter.match(numReg)){
-                isPreviousCharacterNumber = true
-            }
-            if(previousCharacter.match(bReg)){
-                isPreviousCharacterB = true
-            }
-            if(previousCharacter.match(cReg)){
-                isPreviousCharacterC = true
-            }
-            if(previousCharacter.match(eReg)){
-                isPreviousCharacterE = true
-            }
+            isPreviousCharacterNumber = !!previousCharacter.match(numReg)
+            isPreviousCharacterB = !!previousCharacter.match(bReg)
+            isPreviousCharacterC = !!previousCharacter.match(cReg)
+            isPreviousCharacterE = !!previousCharacter.match(eReg)
+
             continue;
         }else if(character === '>'){
             isIgnoring = false
@@ -122,7 +116,7 @@ function extractTextFromHtml(html){
             isAD ||
             (isPreviousCharacterB && nextCharacter == '.') ||
             (isPreviousCharacterC && nextCharacter == '.') ||
-            (isPreviousCharacterE && nextCharacter == '.' || nextCharacter.match(/[a-z0-9]/i)) ||
+            (isPreviousCharacterE && (nextCharacter == '.' || nextCharacter.match(/[a-z0-9]/i))) ||
             (isPreviousCharacterB && nextCharacter.match(cReg))||
             (isPreviousCharacterC && nextCharacter.match(eReg)) ){
                 result += '@'
